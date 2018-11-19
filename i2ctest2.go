@@ -13,7 +13,7 @@ import (
 
 var output1 uint8
 var output2 uint8
-var exitbool bool
+var myExitflag bool = false
 
 func slaveWriteRegU8(slave uint8, addr uint8, data uint8) {
 
@@ -61,7 +61,7 @@ func main() {
 	signal.Notify(gracefulStop, syscall.SIGINT)
 	go func() {
 		sig := <-gracefulStop
-		exitbool = true
+		myExitflag = true
 		fmt.Printf("caught sig: %+v", sig)
 		fmt.Println("Wait for 4 second to finish processing")
 
@@ -75,12 +75,12 @@ func main() {
 		time.Sleep(time.Millisecond * 2000)
 		card2Test()
 		time.Sleep(time.Millisecond * 2000)
-		if exitbool {
+		if myExitflag {
 			break
 		}
 
 	}
-	slaveWriteRegU8(0x20, 0x9, 0x00)
-	slaveWriteRegU8(0x21, 0x9, 0x00)
+	slaveWriteRegU8(0x20, 0x9, 0x00) // turn off outputs on card 1
+	slaveWriteRegU8(0x21, 0x9, 0x00) // turn off outputs on card 2
 
 }
