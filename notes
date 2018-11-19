@@ -1,0 +1,7 @@
+
+hostname : spectrotimer 
+fallback ip of raspberry if dhcp server : 17.0.0.150
+edit /etc/dhcpd.conf 
+
+app is started on raspberry from /etc/rc.local  , remember &
+ 
